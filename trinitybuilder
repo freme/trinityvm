@@ -53,47 +53,6 @@ tar cf trin-src.tar -C ${SRC} .
 
 
 
-install_local_perl_io () {
-if [ "make" != "${MAKE}" ]; then 
-    echo "perl install is skipped"
-    return 0
-fi
-if [ -z "$PERL5LIB" ]
-then
-	PERL5LIB=${APP}/perl/lib
-else
-	PERL5LIB=$PERL5LIB:${APP}/perl/lib
-fi
-
-MANPATH=$MANPATH:${APP}/perl/man
-export PERL5LIB MANPATH
-
-mkdir -p ${APP}/perl/lib
-mkdir -p ${APP}/perl/man/man{1,3}
-
-export PERL_MM_USE_DEFAULT=1
-
-# compilation will fail with cray env
-module switch PrgEnv-cray PrgEnv-gnu
-
-# this will fail due to access rights
-perl -MCPAN -e "install PerlIO::gzip"
-
-# fix cpan config to use local folder for installation
-echo "
-o conf makepl_arg \"LIB=${APP}/perl/lib INSTALLSITEMAN1DIR=${APP}/perl/man/man1 INSTALLSITEMAN3DIR=${APP}/perl/man/man3\"
-o conf make_install_arg UNINST=0
-o conf commit
-quit
-">/tmp/perl.conf
-
-perl -MCPAN -we 'shell' < /tmp/perl.conf
-
-# rerun installation
-perl -MCPAN -e "install PerlIO::gzip"
-
-module switch PrgEnv-gnu PrgEnv-cray
-}
 
 
 
