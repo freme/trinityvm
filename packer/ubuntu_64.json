@@ -33,7 +33,7 @@
         "boot_command" : [
             "<esc><esc><enter><wait>",
             "/install/vmlinuz noapic ",
-            "preseed/url=http://freme.github.io/trinityvm/download/preseed.cfg ",
+            "preseed/url=http://zih-a35.github.io/trinityvm/download/preseed.cfg ",
             "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
             "hostname={{user `hostname`}} ",
             "fb=false debconf/frontend=noninteractive ",
