@@ -17,12 +17,6 @@ Howto install packer
 * install [VirtualBox Plugin](https://help.ubuntu.com/community/VirtualBox/GuestAdditions)
 * Validate .JSON File`packer validate ubuntu_64.json`
 * Build Packer `packer build ubuntu_64.json`
-* 
-* 
-* 
-* 
-* ``
-* 
 
 Build an ubuntu vm
 ==================
