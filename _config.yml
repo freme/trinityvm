@@ -1,4 +1,5 @@
 highlighter: pygments
 github: [Repository metadata]
+baseurl: /trinityvm
 
 exclude: [vendor]
