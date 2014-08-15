@@ -1,10 +1,10 @@
 ---
-title: Creating a VM for the Trinity workshops using packer
+title: Preseed file for packer
 type: "pages"
 layout: default
 ---
 
-lots of very informative text.
+The preceed file steers the ubuntu install process. The kernel grabs the file of an URL. This is why we use github pages so that we have a static url to point to in the packer configuration.
 
 Preceed file
 ============
