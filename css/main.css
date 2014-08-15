@@ -61,7 +61,7 @@ nav > h1 {
 	font-weight: 700;
 	font-size: 2em;
 	line-height: 1;
-	margin: 1.3334em 0 0.3334em;
+/*	margin: 1.3334em 0 0.3334em; */
    -webkit-font-smoothing: antialiased;
     }
 
@@ -257,7 +257,7 @@ img {
     }
 
 nav {
-	padding: 2em 4% 3em;
+/*	padding: 2em 4% 3em; */
     }
 
 nav ul {
@@ -455,10 +455,10 @@ main .img-wrapper {
 	position: relative;
 	display: block;
 	width: 100%;
-	margin: 0 0 1.5em 0;
+/*	margin: 0 0 1.5em 0; */
 	background-color: #fff;
 	overflow: hidden;
-	box-shadow: 0px 0px 2px rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.3);
     }
     
     @media (min-width: 40em) {
@@ -476,26 +476,26 @@ main .img-wrapper {
         border-left: 5px solid #eee;
         padding-left: 4%;
         }
-*/
     @media (min-width: 40em) {
     .nav-primary li:first-child a {
         padding-top: 2em;
         
         }
     }
+*/
 
 .nav-primary li h2 {
 	margin-right: 85px;
-	font-size: 2.5em;
+/*	font-size: 2.5em;
 	margin-top: 0.5em;
-    }
+*/    }
 
 .nav-primary li .img-wrapper {
 	left: 0;
 	
 	
     }
-
+/*
 .nav-primary .img-wrapper img {
 	width: 50px;
 	height: 50px;
@@ -506,12 +506,12 @@ main .img-wrapper {
 .nav-primary .img-wrapper:before {
 	border: none;
     }
-
+*/
 .nav-primary li a {
 	display: block;
 	border-bottom: none;
 	color: #b3002d;
-	padding: 8px 1em 6px 65px;
+    padding: 4px 1em 4px 10px; 
 	background-color: #fff;
     }
 

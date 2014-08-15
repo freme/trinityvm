@@ -1,0 +1,13 @@
+echo "---
+title: Content of preseed file
+type: pages
+layout: default
+---
+" >preseed-source.md
+
+#echo "{% highlight bash linenos %}" >> preseed-source.md
+echo "{% highlight bash %}" >> preseed-source.md
+
+cat ./download/preseed.cfg >>preseed-source.md
+
+echo "{% endhighlight %}" >> preseed-source.md
