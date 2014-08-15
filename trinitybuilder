@@ -1,0 +1,261 @@
+#!/bin/bash
+set -x
+
+cd `dirname $0`
+MYPWD=${PWD}
+export DATE=`date +%Y-%m-%d-%H-%M-%S`
+
+# may be overridden with command line flag -c
+export CURSESFLAG="-lncurses"
+
+# override with -t flag
+export MAKE="make"
+export CONFIG="./configure"
+
+usage() { 
+  echo "Usage: $0 -i /path/to/installation [-g -p -s]" 1>&2 
+  echo "-g          get the sources from git/svn" 1>&2
+  echo "-G          only fetch sources and quit" 1>&2
+  echo "-i path     path to install folder" 1>&2
+  echo "-p          install Perl::IO package locally" 1>&2
+  echo "-P          install Perl::IO package locally and quit" 1>&2
+  echo "-c flag     set curses flag, default: '-lncurses'" 1>&2
+  echo "-C          remove all files created by previous run" 1>&2
+  echo "-t          test - do not call ${MAKE} - but everything else " 1>&2
+  echo "" 1>&2
+  exit 1 
+}
+
+get_sources () {
+if [ -z "${SRC}" ]; then usage; fi
+cd ${SRC}
+echo "downloading sources for GMAP-GSNAP"
+nohup git clone https://github.com/julian-gehring/GMAP-GSNAP.git &
+echo "downloading sources for Bowtie"
+nohup git clone https://github.com/BenLangmead/bowtie.git &
+echo "downloading sources for HTSlib"
+nohup git clone https://github.com/samtools/htslib.git &
+echo "downloading sources for SamTools"
+nohup git clone https://github.com/samtools/samtools.git &
+echo "downloading sources for RSEM"
+nohup git clone https://github.com/bli25wisc/RSEM.git &
+echo "downloading sources for Trinity RNAseq"
+#nohup svn checkout svn://svn.code.sf.net/p/trinityrnaseq/code/trunk trinityrnaseq-code &
+nohup wget -O trinityrnaseq-latest.tar.gz http://sourceforge.net/projects/trinityrnaseq/files/latest/download\?source\=files\# &
+echo "downloading sources for BLAT"
+nohup wget http://users.soe.ucsc.edu/~kent/src/blatSrc35.zip &
+wait
+cat nohup.out
+cd ${PTH}
+echo "tar-ing up results"
+tar cf trin-src.tar -C ${SRC} .
+}
+
+
+
+install_local_perl_io () {
+if [ "make" != "${MAKE}" ]; then 
+    echo "perl install is skipped"
+    return 0
+fi
+if [ -z "$PERL5LIB" ]
+then
+	PERL5LIB=${APP}/perl/lib
+else
+	PERL5LIB=$PERL5LIB:${APP}/perl/lib
+fi
+
+MANPATH=$MANPATH:${APP}/perl/man
+export PERL5LIB MANPATH
+
+mkdir -p ${APP}/perl/lib
+mkdir -p ${APP}/perl/man/man{1,3}
+
+export PERL_MM_USE_DEFAULT=1
+
+# compilation will fail with cray env
+module switch PrgEnv-cray PrgEnv-gnu
+
+# this will fail due to access rights
+perl -MCPAN -e "install PerlIO::gzip"
+
+# fix cpan config to use local folder for installation
+echo "
+o conf makepl_arg \"LIB=${APP}/perl/lib INSTALLSITEMAN1DIR=${APP}/perl/man/man1 INSTALLSITEMAN3DIR=${APP}/perl/man/man3\"
+o conf make_install_arg UNINST=0
+o conf commit
+quit
+">/tmp/perl.conf
+
+perl -MCPAN -we 'shell' < /tmp/perl.conf
+
+# rerun installation
+perl -MCPAN -e "install PerlIO::gzip"
+
+module switch PrgEnv-gnu PrgEnv-cray
+}
+
+
+
+
+
+while getopts ":gGpPCtc:i:" o; do
+    case "${o}" in
+	c)  
+	    CURSESFLAG=${OPTARG}
+	    ;;
+	g)  
+	    GETSOURCES=1
+	    ;;
+    G)
+	    GETSOURCES=1
+	    GETONLYSOURCES=1
+        ;;
+	p)  
+	    install_local_perl_io
+	    ;;
+	P)  
+	    install_local_perl_io
+	    exit 0
+	    ;;
+    i)
+        PTH=${OPTARG}
+        mkdir -p ${PTH}
+        cd ${PTH}
+        # make path variable an absolut path
+        PTH=${PWD}
+	    export APP=${PTH}/app
+	    export SRC=${PTH}/src
+	    export CFG=${PTH}/cfg
+        mkdir ${SRC}
+        mkdir ${APP}
+        mkdir ${CFG}
+        ;;
+    C)
+        if [ -d ${APP} ]; then rm -r ${APP}; fi
+        if [ -d ${SRC} ]; then rm -r ${SRC}; fi
+        if [ -d ${CFG} ]; then rm -r ${CFG}; fi
+        [ "$(ls -A ${PTH})" ] && echo "${PTH} Not Empty" || rm -r ${PTH}
+        ;;
+    t)
+        export MAKE="echo"
+        export CONFIG="echo"
+        ;;
+    *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${PTH}" ]; then
+    usage
+fi
+
+
+# do i need to download sources or is tar already there
+if [ "1" == "${GETSOURCES}" ]; then
+  get_sources
+  if [ "1" == "${GETONLYSOURCES}" ]; then exit 0; fi
+else
+  if [ -f ${MYPWD}/trin-src.tar ]; then
+    tar xf ${MYPWD}/trin-src.tar -C ${SRC}
+  else
+    echo "tar file ${MYPWD}/trin-src.tar missing, use -g to download"
+    exit 1
+  fi
+fi;
+
+########
+# gmap #
+########
+cd ${SRC}/GMAP-GSNAP/
+${CONFIG} --prefix=${APP}/gmap
+${MAKE} -j
+${MAKE} install
+
+##########
+# bowtie #
+##########
+cd ${SRC}/bowtie
+${MAKE} -j
+mkdir ${APP}/bowtie
+cp bowtie bowtie-build bowtie-inspect ${APP}/bowtie/
+
+############
+# samtools #
+############
+cd ${SRC}/htslib
+${MAKE} -j
+
+cd ${SRC}/samtools/
+${MAKE} LIBCURSES=${CURSESFLAG} -j
+mkdir ${APP}/samtools
+cp bgzip samtools ${APP}/samtools/
+
+########
+# rsem #
+########
+cd ${SRC}/RSEM
+${MAKE} LIBCURSES=${CURSESFLAG} -j
+mkdir ${APP}/rsem
+cp rsem-* ${APP}/rsem/
+cp convert-sam-for-rsem extract-transcript-to-gene-map-from-trinity ${APP}/rsem/
+
+########
+# blat #
+########
+# may be used to check validity of results
+cd ${SRC}
+if [ "echo" == "${MAKE}" ] 
+  then echo unzip blatSrc35.zip
+  else unzip blatSrc35.zip
+fi
+cd blatSrc
+mkdir -p ${HOME}/bin/${MACHTYPE}
+${MAKE} clean
+${MAKE} all
+mv ${HOME}/bin/${MACHTYPE} ${APP}/blat
+
+###########
+# Perl IO #
+###########
+cd ${SRC}
+install_local_perl_io
+
+###########
+# trinity #
+###########
+MYPATH=${APP}/gmap/bin:${APP}/bowtie:${APP}/samtools:${APP}/rsem/:${APP}/blat
+export PATH=${PATH}:${MYPATH}
+
+cd ${SRC}
+tar xzf trinityrnaseq-latest.tar.gz
+cd trinityrnaseq_*
+${MAKE} all
+${MAKE} testall
+${MAKE} testclean
+export PATH=${PATH}:${PWD}
+
+
+
+
+
+#####################################################################
+cp ${MYPWD}/cfg/* ${CFG}
+CFGFILE="${CFG}/build.cfg"
+echo "#!/bin/bash" >${CFGFILE}
+echo "">>${CFGFILE}
+echo "export PATH=\${PATH}:${MYPATH}">>${CFGFILE}
+echo "export PTH=${PTH}">>${CFGFILE}
+echo "export SRC=${SRC}">>${CFGFILE}
+echo "export APP=${APP}">>${CFGFILE}
+echo "export CFG=${CFG}">>${CFGFILE}
+echo "export BLD=${MYPWD}">>${CFGFILE}
+echo "export PERL_MM_USE_DEFAULT=1">>${CFGFILE}
+echo "export CURSESFLAG=${CURSESFLAG}">>${CFGFILE}
+echo "export PERL5LIB=${PERL5LIB}">>${CFGFILE}
+echo "export BUILDDATE=${DATE}">>${CFGFILE}
+echo "">>${CFGFILE}
+
+${MYPWD}/makejobfile ${CFG}/build.cfg

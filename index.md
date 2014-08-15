@@ -1,6 +1,7 @@
 ---
 title: Creating a VM for the Trinity workshops using packer
 type: "pages"
+layout: default
 ---
 
 lots of very informative text.
