@@ -13,12 +13,8 @@ export MAKE="make"
 export CONFIG="./configure"
 
 usage() { 
-  echo "Usage: $0 -i /path/to/installation [-g -p -s]" 1>&2 
-  echo "-g          get the sources from git/svn" 1>&2
-  echo "-G          only fetch sources and quit" 1>&2
+  echo "Usage: $0 -i /path/to/installation" 1>&2 
   echo "-i path     path to install folder" 1>&2
-  echo "-p          install Perl::IO package locally" 1>&2
-  echo "-P          install Perl::IO package locally and quit" 1>&2
   echo "-c flag     set curses flag, default: '-lncurses'" 1>&2
   echo "-C          remove all files created by previous run" 1>&2
   echo "-t          test - do not call ${MAKE} - but everything else " 1>&2
@@ -40,15 +36,14 @@ nohup git clone https://github.com/samtools/samtools.git &
 echo "downloading sources for RSEM"
 nohup git clone https://github.com/bli25wisc/RSEM.git &
 echo "downloading sources for Trinity RNAseq"
-#nohup svn checkout svn://svn.code.sf.net/p/trinityrnaseq/code/trunk trinityrnaseq-code &
-nohup wget -O trinityrnaseq-latest.tar.gz http://sourceforge.net/projects/trinityrnaseq/files/latest/download\?source\=files\# &
+nohup svn checkout svn://svn.code.sf.net/p/trinityrnaseq/code/trunk trinityrnaseq-code &
 echo "downloading sources for BLAT"
 nohup wget http://users.soe.ucsc.edu/~kent/src/blatSrc35.zip &
 wait
 cat nohup.out
 cd ${PTH}
 echo "tar-ing up results"
-tar cf trin-src.tar -C ${SRC} .
+tar cf trin-src-${DATE}.tar -C ${SRC} .
 }
 
 
@@ -62,20 +57,6 @@ while getopts ":gGpPCtc:i:" o; do
     case "${o}" in
 	c)  
 	    CURSESFLAG=${OPTARG}
-	    ;;
-	g)  
-	    GETSOURCES=1
-	    ;;
-    G)
-	    GETSOURCES=1
-	    GETONLYSOURCES=1
-        ;;
-	p)  
-	    install_local_perl_io
-	    ;;
-	P)  
-	    install_local_perl_io
-	    exit 0
 	    ;;
     i)
         PTH=${OPTARG}
@@ -111,19 +92,7 @@ if [ -z "${PTH}" ]; then
     usage
 fi
 
-
-# do i need to download sources or is tar already there
-if [ "1" == "${GETSOURCES}" ]; then
-  get_sources
-  if [ "1" == "${GETONLYSOURCES}" ]; then exit 0; fi
-else
-  if [ -f ${MYPWD}/trin-src.tar ]; then
-    tar xf ${MYPWD}/trin-src.tar -C ${SRC}
-  else
-    echo "tar file ${MYPWD}/trin-src.tar missing, use -g to download"
-    exit 1
-  fi
-fi;
+get_sources
 
 ########
 # gmap #
@@ -139,7 +108,7 @@ ${MAKE} install
 cd ${SRC}/bowtie
 ${MAKE} -j
 mkdir ${APP}/bowtie
-cp bowtie bowtie-build bowtie-inspect ${APP}/bowtie/
+cp bowtie bowtie-* ${APP}/bowtie/
 
 ############
 # samtools #
@@ -177,12 +146,6 @@ ${MAKE} all
 mv ${HOME}/bin/${MACHTYPE} ${APP}/blat
 
 ###########
-# Perl IO #
-###########
-cd ${SRC}
-install_local_perl_io
-
-###########
 # trinity #
 ###########
 MYPATH=${APP}/gmap/bin:${APP}/bowtie:${APP}/samtools:${APP}/rsem/:${APP}/blat
@@ -197,11 +160,7 @@ ${MAKE} testclean
 export PATH=${PATH}:${PWD}
 
 
-
-
-
 #####################################################################
-cp ${MYPWD}/cfg/* ${CFG}
 CFGFILE="${CFG}/build.cfg"
 echo "#!/bin/bash" >${CFGFILE}
 echo "">>${CFGFILE}
@@ -213,8 +172,6 @@ echo "export CFG=${CFG}">>${CFGFILE}
 echo "export BLD=${MYPWD}">>${CFGFILE}
 echo "export PERL_MM_USE_DEFAULT=1">>${CFGFILE}
 echo "export CURSESFLAG=${CURSESFLAG}">>${CFGFILE}
-echo "export PERL5LIB=${PERL5LIB}">>${CFGFILE}
 echo "export BUILDDATE=${DATE}">>${CFGFILE}
 echo "">>${CFGFILE}
 
-${MYPWD}/makejobfile ${CFG}/build.cfg
