@@ -1,6 +1,8 @@
 trinityvm
 =========
-vm for trinity workshops etc
+vm for trinity workshops etc.
+
+URL: https://zih-a35.github.io/trinityvm/index.html
 
 further information
 ===================
