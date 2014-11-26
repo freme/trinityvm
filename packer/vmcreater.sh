@@ -70,5 +70,8 @@ mv ./trinityvm ~/.ssh
 VBoxManage modifyvm "packer-virtualbox-iso" --nic1 hostonly
 VBoxManage modifyvm "packer-virtualbox-iso" --hostonlyadapter1 $SINGLENAME
 VBoxManage modifyvm "packer-virtualbox-iso" --nic2 nat
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a29b9d5bb6949a2d19a0c5e9c7f0d861d15d8396
