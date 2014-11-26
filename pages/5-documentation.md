@@ -4,7 +4,7 @@ type: pages
 layout: default
 ---
 
-quick start
+Quick Start
 -----------
 
 1. {% highlight bash %}apt-get install unzip{% endhighlight %}
@@ -13,7 +13,7 @@ quick start
 2.2 {% highlight bash %}unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/{% endhighlight %}
 3. {% highlight bash %}apt-get install virtualbox virtualbox-guest-additions-iso{% endhighlight %}
 4. Download the scripts.
-4.1 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json
+4.1 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json{% endhighlight %}
 	{% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg{% endhighlight %}
 4.2 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh{% endhighlight %}
 5. Create a directory and move the scripts in.
