@@ -9,7 +9,7 @@ Quick Start
 
 1. {% highlight bash %}apt-get install unzip{% endhighlight %}
 2. Download and Install the Packer. 
-2.1 {% highlight bash %}wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip{% endhighlight %} 
+2.1 `wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip`
 2.2 {% highlight bash %}unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/{% endhighlight %} 
 3. {% highlight bash %}apt-get install virtualbox virtualbox-guest-additions-iso{% endhighlight %}
 4. Download the scripts.
