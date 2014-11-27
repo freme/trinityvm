@@ -11,40 +11,40 @@ Quick Start
 apt-get install unzip  
 {% endhighlight %}
 2. Download and Install the Packer.  
-* {% highlight bash %}
+..1 {% highlight bash %}
 wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip  
 {% endhighlight %}
-* {% highlight bash %}
+..2 {% highlight bash %}
 unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/  
 {% endhighlight %}
 3. {% highlight bash %}
 apt-get install virtualbox virtualbox-guest-additions-iso  
 {% endhighlight %}
 4. Download the scripts.  
-* {% highlight bash %}
+..1 {% highlight bash %}
 wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json  
 {% endhighlight %}
 {% highlight bash %}
 wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg  
 {% endhighlight %}
-* {% highlight bash %}
+..2 {% highlight bash %}
 wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh  
 {% endhighlight %}
 5. Create a directory and move the scripts in.  
-* {% highlight bash %}
+..1 {% highlight bash %}
 mkdir VM-Creator  
 {% endhighlight %}
-* {% highlight bash %}
+..2 {% highlight bash %}
 mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creator/  
 {% endhighlight %}
 6. Build the virtual machine by the vmcreater.  
-* {% highlight bash %}
+..1 {% highlight bash %}
 cd VM-Creator  
 {% endhighlight %}
-* {% highlight bash %}
+..2 {% highlight bash %}
 chmod ug+x vmcreater.sh  
 {% endhighlight %}
-* {% highlight bash %}
+..3 {% highlight bash %}
 ./vmcreater.sh  
 {% endhighlight %}
 
