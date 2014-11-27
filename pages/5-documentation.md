@@ -9,25 +9,20 @@ Quick Start
 
 1. {% highlight bash %}apt-get install unzip{% endhighlight %}  
 2. Download and Install the Packer.  
-2.1 
-{% highlight bash %}wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip{% endhighlight %}  
-2.2 
-{% highlight bash %}unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/{% endhighlight %}  
-3. 
-{% highlight bash %}apt-get install virtualbox virtualbox-guest-additions-iso{% endhighlight %}  
+2.1  {% highlight bash %}wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip{% endhighlight %}  
+2.2  {% highlight bash %}unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/{% endhighlight %}  
+3.  {% highlight bash %}apt-get install virtualbox virtualbox-guest-additions-iso{% endhighlight %}  
 4. Download the scripts.  
-4.1 
-{% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json{% endhighlight %}  
-{% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg{% endhighlight %}  
-4.2 
-{% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh{% endhighlight %}  
+4.1  {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json{% endhighlight %}  
+	 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg{% endhighlight %}  
+4.2  {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh{% endhighlight %}  
 5. Create a directory and move the scripts in.  
-5.1 {% highlight bash %}mkdir VM-Creator{% endhighlight %}  
-5.2 {% highlight bash %}mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creator/{% endhighlight %}  
+5.1  {% highlight bash %}mkdir VM-Creator{% endhighlight %}  
+5.2  {% highlight bash %}mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creator/{% endhighlight %}  
 6. Build the virtual machine by the vmcreater.  
-6.1 {% highlight bash %}cd VM-Creator{% endhighlight %}  
-6.2 {% highlight bash %}chmod ug+x vmcreater.sh{% endhighlight %}  
-6.3 {% highlight bash %}./vmcreater.sh{% endhighlight %}  
+6.1  {% highlight bash %}cd VM-Creator{% endhighlight %}  
+6.2  {% highlight bash %}chmod ug+x vmcreater.sh{% endhighlight %}  
+6.3  {% highlight bash %}./vmcreater.sh{% endhighlight %}  
 
 
 
