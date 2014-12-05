@@ -18,7 +18,7 @@
 				["modifyvm", "{{.Name}}", "--memory", "4096"]
 	        ],
 
-	        "disk_size" : 10000,
+	        "disk_size" : 32000,
 	
 	        "iso_url": "http://releases.ubuntu.com/14.04.1/ubuntu-14.04-server-amd64.iso",
 	        "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
@@ -65,6 +65,11 @@
 				"apt-get -y install unzip",
 				"apt-get -y install git",
 				"apt-get -y install subversion",
+				"apt-get -y install zlib1g-dev",
+				"apt-get -y install libncurses5-dev",
+				"apt-get -y install openjdk-7-jre icedtea-7-plugin",
+				"apt-get -y install autoconf",
+				"apt-get -y install lxde",
 				"echo ' ' >> /etc/network/interfaces",
 				"echo 'auto eth1' >> /etc/network/interfaces",
 				"echo 'iface eth1 inet dhcp' >> /etc/network/interfaces",
@@ -73,7 +78,26 @@
 				"wget https://raw.githubusercontent.com/zih-a35/trinityvm/master/download/trinityvm.pub",
 				"mv trinityvm.pub ./.ssh/authorized_keys",
 				"wget https://raw.githubusercontent.com/zih-a35/trinityvm/master/scripts/trinitybuilder",
-				"chmod +x trinitybuilder"
+				"chmod ugo+x trinitybuilder",
+				"mv trinitybuilder trinitybuilder.sh",
+				"sed -i 's/cd trinityrnaseq_*/cd trinity-code/g'",
+				"mkdir Software",
+				"./trinitybuilder.sh -i ./Software",
+				"cd Software",
+				"wget http://www.broadinstitute.org/igv/projects/downloads/IGV_2.3.40.zip",
+				"unzip IGV_2.3.40.zip",
+				"IGV=/home/ubuntu/Software/IGV_2.3.40",
+				"export IGV",
+				"wget http://ccb.jhu.edu/software/tophat/downloads/tophat-2.0.13.Linux_x86_64.tar.gz",
+				"tar -xzf tophat-2.0.13.Linux_x86_64.tar.gz",
+				"cd ..",
+				"svn checkout svn://svn.code.sf.net/p/trinityrnaseq/code/misc_tests/rnaseq_workshop/rnaseq_workshop_2014",
+				"echo ' ' >> ./.bashrc",
+				"echo 'PATH=$PATH:/home/ubuntu/Software/app/bowtie:/home/ubuntu/Software/app/gmap/bin:/home/ubuntu/Software/app/samtools:/home/ubuntu/Software/app/blat:/home/ubuntu/Software/app/rsem:/home/ubuntu/Software/tophat-2.0.13.Linux_x86_64' >> ./.bashrc",
+				"echo 'IGV=/home/ubuntu/Software/IGV_2.3.40' >> ./.bashrc",
+				"echo 'TRINITY_HOME=/home/ubuntu/Software/src/trinityrnaseq-code' >> ./.bashrc",
+				"export TRINITY_HOME",
+				"export IGV"
 
 		    ]
 		}
