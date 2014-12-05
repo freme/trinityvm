@@ -1,0 +1,24 @@
+#!/bin/bash
+# create an md-file containing the preseed-cfg as Markdown with syntax highlighting (pygments)
+
+cd `dirname $0`
+
+FNAME=../pages/9-preseed-source.md
+
+echo "---
+title: Content of preseed file
+type: pages
+layout: default
+---
+" >$FNAME
+
+#echo "{% highlight bash linenos %}" >> $FNAME
+echo "{% highlight bash %}" >> $FNAME
+
+cat ../download/preseed.cfg >>$FNAME
+
+echo "{% endhighlight %}" >> $FNAME
+
+git add $FNAME
+git commit $FNAME -m "new version of preseed file"
+

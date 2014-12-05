@@ -4,6 +4,11 @@ type: pages
 layout: default
 ---
 
+This document describes how to setup you system to use trinityvm
+in order to build a ubuntuvm for virtualbox that includes Trinity 
+and the needed tools from scratch using the latest and greatest 
+versions from the respective repositories.
+
 Quick Start
 -----------
 
