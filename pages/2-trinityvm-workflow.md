@@ -12,22 +12,46 @@ versions from the respective repositories.
 Quick Start
 -----------
 
-1. {% highlight bash %}apt-get install unzip{% endhighlight %}
-2. Download and Install the Packer.
-2.1 {% highlight bash %}wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip{% endhighlight %}
-2.2 {% highlight bash %}unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/{% endhighlight %}
-3. {% highlight bash %}apt-get install virtualbox virtualbox-guest-additions-iso{% endhighlight %}
-4. Download the scripts.
-4.1 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json{% endhighlight %}
-	{% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg{% endhighlight %}
-4.2 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh{% endhighlight %}
-5. Create a directory and move the scripts in.
-5.1 {% highlight bash %}mkdir VM-Creator{% endhighlight %}
-5.2 {% highlight bash %}mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creator/{% endhighlight %}
-6. Build the virtual machine by the vmcreater.
-6.1 {% highlight bash %}cd VM-Creator{% endhighlight %}
-6.2 {% highlight bash %}chmod ug+x vmcreater.sh{% endhighlight %}
-6.3 {% highlight bash %}./vmcreater.sh{% endhighlight %}
+1. {% highlight bash %}
+apt-get install unzip  
+{% endhighlight %}
+2. Download and Install the Packer.  
+  * {% highlight bash %}
+wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip  
+{% endhighlight %}
+  * {% highlight bash %}
+unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/  
+{% endhighlight %}
+3. {% highlight bash %}
+apt-get install virtualbox virtualbox-guest-additions-iso  
+{% endhighlight %}
+4. Download the scripts.  
+  * {% highlight bash %}
+wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json  
+{% endhighlight %}
+  {% highlight bash %}
+wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg  
+{% endhighlight %}
+  * {% highlight bash %}
+wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh  
+{% endhighlight %}
+5. Create a directory and move the scripts in.  
+  * {% highlight bash %}
+mkdir VM-Creator  
+{% endhighlight %}
+  * {% highlight bash %}
+mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creator/  
+{% endhighlight %}
+6. Build the virtual machine by the vmcreater.  
+  * {% highlight bash %}
+cd VM-Creator  
+{% endhighlight %}
+  * {% highlight bash %}
+chmod ug+x vmcreater.sh  
+{% endhighlight %}
+  * {% highlight bash %}
+./vmcreater.sh  
+{% endhighlight %}
 
 
 
@@ -35,33 +59,33 @@ Quick Start
 Step by Step Tutorial
 ---------------------
 
-1. apt-get install unzip
-	Insall of a programm what unpack .zip-Files.
-2. Download and Install Packer.
-2.1 wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip
-	Download the .zip-File from the programm what build the virtual machine called Packer.
-2.2 unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/
-	Unpack the .zip-File in the bin direktory at '/usr/local/bin/'.
-3. apt-get install virtualbox virtualbox-guest-additions-iso
-	Install "VirtualBox" and the plugin "virtualbox-guest-additions-iso".
-4. Download the scripts.
-4.1 wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json
-	wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg
-	Download from the Git-repository two configscript for Packer.
-4.2 wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh
-	Download the shellscript from the Git-repository to build the VM.
-5. Create a directory and move the Files from the Git-repository in the directory.
-5.1 mkdir VM-Creater
-	Create a directory for the 3 Files.
-5.2 mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creater/
-	Move the 3 Files in the "VM-Creator" directory.
-6. Build the VM with the shellscript "vmcreater".
-6.1 cd VM-Creater
-	With the command cd you change the directory to VM-Creator.
-6.2 chmod ug+x vmcreater.sh
-	Change the permissions from the shellscript "vmcreater.sh" so that you can execute it.
-6.3 ./vmcreater.sh
-	Execute the script "vmcreater.sh". What makes this script, described below.
+1. {% highlight bash %}apt-get install unzip{% endhighlight %}  
+	Insall of a programm what unpack .zip-Files.  
+2. Download and Install Packer.  
+2.1 {% highlight bash %}wget https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip{% endhighlight %}  
+	Download the .zip-File from the programm what build the virtual machine called Packer.  
+2.2 {% highlight bash %}unzip packer_0.7.2_linux_amd64 -d /usr/local/bin/{% endhighlight %}  
+	Unpack the .zip-File in the bin direktory at '/usr/local/bin/'.  
+3. {% highlight bash %}apt-get install virtualbox virtualbox-guest-additions-iso{% endhighlight %}  
+	Install "VirtualBox" and the plugin "virtualbox-guest-additions-iso".  
+4. Download the scripts.  
+4.1 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/ubuntu_64.json{% endhighlight %}  
+	{% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/download/preseed.cfg{% endhighlight %}  
+	Download from the Git-repository two configscript for Packer.  
+4.2 {% highlight bash %}wget https://github.com/zih-a35/trinityvm/blob/master/packer/vmcreater.sh{% endhighlight %}  
+	Download the shellscript from the Git-repository to build the VM.  
+5. Create a directory and move the Files from the Git-repository in the directory.  
+5.1 {% highlight bash %}mkdir VM-Creater{% endhighlight %}  
+	Create a directory for the 3 Files.  
+5.2 {% highlight bash %}mv ubuntu_64.json vmcreater.sh preseed.cfg ./VM-Creater/{% endhighlight %}  
+	Move the 3 Files in the "VM-Creator" directory.  
+6. Build the VM with the shellscript "vmcreater".  
+6.1 {% highlight bash %}cd VM-Creater{% endhighlight %}  
+	With the command cd you change the directory to VM-Creator.  
+6.2 {% highlight bash %}chmod ug+x vmcreater.sh{% endhighlight %}  
+	Change the permissions from the shellscript "vmcreater.sh" so that you can execute it.  
+6.3 {% highlight bash %}./vmcreater.sh{% endhighlight %}  
+	Execute the script "vmcreater.sh". What makes this script, described below.  
 
 
 
