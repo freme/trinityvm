@@ -153,7 +153,7 @@ export PATH=${PATH}:${MYPATH}
 
 cd ${SRC}
 tar xzf trinityrnaseq-latest.tar.gz
-cd trinityrnaseq_*
+cd trinityrnaseq-code
 ${MAKE} all
 ${MAKE} testall
 ${MAKE} testclean
